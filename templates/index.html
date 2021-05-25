@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Lato:light' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="../static/styles/google-css-addon.css">
+    <link rel="stylesheet" href="../static/styles/cayman.css">
+    <link rel="stylesheet" href="../static/styles/stylesheet.css">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<section class="page-header">
+    <h1 class="project-name">TDOT GI Project<sub style="font-size:13px;">0.0.1</sub></h1>
+
+    <div id="paramdiv">
+        <br>
+        <h2 class="project-tagline" style="font-weight: 200; line-height: 0px;">Enter your parameters:</h2>
+        <table id="parametertable" class="parametertable" width="100%">
+            <tr>
+                <td valign="top">
+                    Type of GI:
+                    <p>
+                        <select class="search_select" id="typegi">
+                            <option class="search_option" value="dryretentionbasin">Dry Retention Basin</option>
+                            <option class="search_option" value="wetretentionbasin">Wet Retention Basin</option>
+                            <option class="search_option" value="naturalizedbasin">Naturalized Basin</option>
+                        </select>
+                </td>
+                <td valign="top">
+                    Size in m<sup>2</sup>:
+                    <p>
+                        <input id="sizegi">
+                </td>
+                <td valign="top">
+                    Amount of water being collected:
+                    <p>
+                        <input id="amountwater">
+                </td>
+                <td valign="top">
+                    Are you planning to use the water?:
+                    <p>
+                        <select class="search_select" id="usewater">
+                            <option class="search_option" value="yes">Yes</option>
+                            <option class="search_option" value="no">No</option>
+                        </select>
+                </td>
+                <td valign="top">
+                        <a href="javascript:;" type="submit" class="btn" id="submit_search_button">Submit</a>
+                </td>
+            </tr>
+        </table>
+
+        <!--
+        Slider code within the following table is not mine and may be found here:
+        https://codeconvey.com/pure-css-range-slider-with-2-handles/
+        -->
+
+        <table style="display: none;" id="advanced_options_table" class="parametertable" width="50%" >
+            <tr>
+                <td valign="top">
+                    Show species with max minus min differences of:
+                    <div slider id="slider-distance">
+                            <div>
+                                <div inverse-left style="width:100%;"></div>
+                                <div inverse-right style="width:100%;"></div>
+                                <div range style="left:0%;right:0%;"></div>
+                                <span thumb style="left:0%;"></span>
+                                <span thumb style="left:100%;"></span>
+                                <div sign style="left:0%;">
+                                    <span id="value">0</span>
+                                </div>
+                                <div sign style="left:100%;">
+                                    <span id="value">10</span>
+                                </div>
+                            </div>
+                            <input id="mindiffc" type="range" tabindex="0" value="0" max="10" min="0" step="1" oninput="
+                            this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
+                            var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
+                            var children = this.parentNode.childNodes[1].childNodes;
+                            children[1].style.width=value+'%';
+                            children[5].style.left=value+'%';
+                            children[7].style.left=value+'%';children[11].style.left=value+'%';
+                            children[11].childNodes[1].innerHTML=this.value;" />
+
+                            <input id="maxdiffc" type="range" tabindex="0" value="10" max="10" min="0" step="1" oninput="
+                            this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
+                            var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
+                            var children = this.parentNode.childNodes[1].childNodes;
+                            children[3].style.width=(100-value)+'%';
+                            children[5].style.right=(100-value)+'%';
+                            children[9].style.left=value+'%';children[13].style.left=value+'%';
+                            children[13].childNodes[1].innerHTML=this.value;" />
+                    </div>
+                </td>
+                <td>
+                    # of user submitted C-values:
+                    <div slider id="slider-distance">
+                            <div>
+                                <div inverse-left style="width:100%;"></div>
+                                <div inverse-right style="width:100%;"></div>
+                                <div range style="left:0%;right:0%;"></div>
+                                <span thumb style="left:0%;"></span>
+                                <span thumb style="left:100%;"></span>
+                                <div sign style="left:0%;">
+                                    <span id="value">0</span>
+                                </div>
+                                <div sign style="left:100%;">
+                                    <span id="value">25</span>
+                                </div>
+                            </div>
+                            <input id="minotherc" type="range" tabindex="0" value="0" max="25" min="0" step="1" oninput="
+                            this.value=Math.min(this.value,this.parentNode.childNodes[5].value-1);
+                            var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
+                            var children = this.parentNode.childNodes[1].childNodes;
+                            children[1].style.width=value+'%';
+                            children[5].style.left=value+'%';
+                            children[7].style.left=value+'%';children[11].style.left=value+'%';
+                            children[11].childNodes[1].innerHTML=this.value;" />
+
+                            <input id="maxotherc" type="range" tabindex="0" value="25" max="25" min="0" step="1" oninput="
+                            this.value=Math.max(this.value,this.parentNode.childNodes[3].value-(-1));
+                            var value=(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.value)-(100/(parseInt(this.max)-parseInt(this.min)))*parseInt(this.min);
+                            var children = this.parentNode.childNodes[1].childNodes;
+                            children[3].style.width=(100-value)+'%';
+                            children[5].style.right=(100-value)+'%';
+                            children[9].style.left=value+'%';children[13].style.left=value+'%';
+                            children[13].childNodes[1].innerHTML=this.value;" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+
+    <div id="statspaneldiv" style="display: none;">
+        <a href="javascript:;" id="showstatspanel" style="color: #FFFFFF"><u>Show the statistics panel</u></a>
+    </div>
+
+</section>
+<br>
+<div class='real-body' id='real-body' style="display: none;">
+    <div id="output"></div>
+</div>
+
+<footer class="site-footer">
+    <span class="site-footer-credits">View this site's <a target="_blank"
+                                                          href="https://github.com/bgq527/shaw-cval-form-flask">source code</a>. Maintained by <a
+            target="_blank" href="https://github.com/bgq527">Dax</a><img class="text_scale"
+                                                                         src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/237/robot-face_1f916.png">.</span>
+</footer>
+<br>
+
+
+</body>
+
+<script>
+    var urow = -1;
+    var verified_uid = '';
+    var stats_access = "No";
+    var species_row = '';
+    var save_family = '';
+    var read_sheet = [];
+
+    var dropdown_css = {
+        'max-height': '30vh',
+        'overflow-y': 'auto'
+    }
+
+    var family_search_css = {
+        'margin-bottom': '1rem',
+        'color': 'rgba(255, 255, 255, 1)',
+        'font-size': '15px',
+        'background': 'none',
+        'background-color': 'rgba(255, 255, 255, 0.08)',
+        'border-color': 'rgba(255, 255, 255, 0.2)',
+        'border-style': 'solid',
+        'border-width': '1px',
+        'border-radius': '0.3rem',
+        'transition': 'color 0.2s, background-color 0.2s, border-color 0.2s',
+    }
+
+    $(document).ready(function () {
+        $('#login').on('click', '#submit_id_button', function () {
+            var uid = $("#uemail").val();
+            $("#status_text").html("Checking...");
+
+            $.ajax({
+                url: "/login",
+                type: "get",
+                data: {uid: uid},
+                dataType: "json",
+                async: true,
+                success: function (response) {
+                    if (response.result === 1) {
+                        urow = response.returns[1].toString();
+                        verified_uid = response.returns[0].toString();
+                        stats_access = response.returns[3].toString();
+                        $("#status_text").html("Success! Retrieving new data sheet...");
+
+
+
+                        {#
+                        The following two sequential AJAX requests (chained success functions) unfortunately
+                        cannot be split into two separate AJAX requests. This is unfortunately due to SSL
+                        certificate errors that arise when sending two requests simultaneously to one
+                        Sheets API worker.
+                        #}
+
+                        $.ajax({
+                            url: "/refresh_data_sheet",
+                            type: "get",
+                            async: true,
+                            success: function () {
+                                $("#paramdiv").css('overflow-y', 'auto');
+                                $("#paramdiv").css('display', 'initial');
+                                $("#real-body").css('display', 'initial');
+                                if (stats_access === "Yes"){
+                                    $("#statspaneldiv").css('display', 'initial');
+                                }
+                                // $("#familydiv").css('display', 'initial');
+                                $("#submit_id_button").remove();
+                                $("#status_text").html('<p style="line-height: 0px;">Welcome back, ' + response.returns[2].toString() + '.</p>');
+
+
+                                $.ajax({
+                                    url: "/generate_dropdown",
+                                    type: "get",
+                                    data: {urow: urow, save_family: ''},
+                                    dataType: "json",
+                                    async: true,
+                                    success: function (response) {
+                                        $("#familydiv").html(response.dropdown);
+                                        $("#familydiv").css(family_search_css);
+                                        $("#myDropdown").css(dropdown_css);
+
+                                        $("#progressdiv").css('display', 'initial');
+                                        $("#progressdiv").html(response.progress);
+
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        $("#status_text").html('INVALID! Please re-enter ID: <input id="uemail">');
+                    }
+                }
+            });
+        });
+
+        $('#submit_search').on('click', '#submit_search_button', function () {
+            var div = $("#output");
+            var uemail = $("#uemail").val();
+            var family = $("#familysearch").val();
+            var search_family = $("#myDropdown").val();
+            var majorgroup = $("#majorgroup").val();
+            var tnstatus = $("#tnstatus").val();
+            var kystatus = $("#kystatus").val();
+            var wetlanda = $("#wetlanda").val();
+            var wetlande = $("#wetlande").val();
+            var invasives = $("#invasives").val();
+            var mindiffc = $("#mindiffc").val();
+            var maxdiffc = $("#maxdiffc").val();
+            var minotherc = $("#minotherc").val();
+            var maxotherc = $("#maxotherc").val();
+            // var support = document.getElementById('support');
+            var support = "any";
+            var finished = $("#showfinished").val();
+
+            if (family === "") {
+                div.html('Searching for species of any family with the given parameters. <strong>Please wait, this may take some time.</strong>');
+            } else {
+                div.html('Searching for species of ' + family + " with the given parameters. <strong>Please wait, this may take some time.</strong>");
+            }
+            save_family = family;
+
+            $.ajax({
+                url: "/generate_result",
+                type: "get",
+                data: {
+                    search_indices: -1,
+                    urow: urow,
+                    ufamily: family,
+                    umajorgroup: majorgroup,
+                    utnstatus: tnstatus,
+                    ukystatus: kystatus,
+                    uwetlanda: wetlanda,
+                    uwetlande: wetlande,
+                    usupport: support,
+                    ufinished: finished,
+                    uinvasives: invasives,
+                    uotherc: minotherc + "-" + maxotherc,
+                    udiffc: mindiffc + "-" + maxdiffc,
+                },
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    search_indices = data.returns[2]
+                    $('#output').html(data.returns[1]);
+                }
+            });
+
+
+        });
+
+        $('#output').on('click', '.species', function () {
+            var expl_params = this.id.split(":lim:");
+            var species_name = expl_params[0];
+            var cval = expl_params[1];
+            var notes = expl_params[2];
+
+            $("#output").html('Loading information for: ' + species_name + ". <strong>Please wait, this may take some time.</strong>");
+
+            $.ajax({
+                url: "/gather_species_info",
+                type: "get",
+                data: {species_name: species_name, cval: cval, notes: notes},
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    species_row = data.returns[0]
+                    $('#output').html(data.returns[1]);
+                }
+
+            });
+        });
+
+        $('#output').on('click', '#submit_cval_button', function () {
+            var expl_params = this.id.split(":lim:");
+            var species_name = expl_params[0];
+            var cval = expl_params[1];
+            var notes = expl_params[2];
+
+            var div = $("#output");
+            var uemail = $("#uemail").val();
+            var ucval = $("#ucval").val();
+            var unotes = $("#speciesnotes").val();
+            var family = $("#familysearch").val();
+            var search_family = $("#myDropdown").val();
+            var majorgroup = $("#majorgroup").val();
+            var tnstatus = $("#tnstatus").val();
+            var kystatus = $("#kystatus").val();
+            var wetlanda = $("#wetlanda").val();
+            var wetlande = $("#wetlande").val();
+            // var support = document.getElementById('support');
+            var support = "any";
+            var finished = $("#showfinished").val();
+
+            $('#myDropdown').html("Updating status... please wait");
+            $.ajax({
+                url: "/cval_to_sheet",
+                data: {urow: urow, species_row: species_row, ucval: ucval, unotes: unotes},
+                async: true,
+                success: function () {
+                    $.ajax({
+                        url: "/generate_result",
+                        type: "get",
+                        data: {
+                            search_indices: search_indices,
+                            urow: urow,
+                            ufamily: family,
+                            umajorgroup: majorgroup,
+                            utnstatus: tnstatus,
+                            ukystatus: kystatus,
+                            uwetlanda: wetlanda,
+                            uwetlande: wetlande,
+                            usupport: support,
+                            ufinished: finished
+                        },
+                        dataType: "json",
+                        async: true,
+                        success: function (data) {
+                            search_indices = data.returns[2]
+                            $('#output').html(data.returns[1]);
+
+                            $.ajax({
+                                url: "/generate_dropdown",
+                                type: "get",
+                                data: {urow: urow, save_family: ''},
+                                dataType: "json",
+                                async: true,
+                                success: function (response) {
+                                  $("#familydiv").html(response.dropdown);
+                                  $("#familydiv").css(family_search_css);
+                                  $("#myDropdown").css(dropdown_css);
+
+                                  $("#progressdiv").css('display', 'initial');
+                                  $("#progressdiv").html(response.progress);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            div.html('Submitting C-value and re-doing search... <strong>Please wait, this may take some time.</strong>');
+        });
+
+        $('#advoptionsdiv').on('click', '#showadvoptions', function () {
+            $("#advanced_options_table").css('display', 'initial');
+            $("#advoptionsdiv").html('<a href="javascript:;" id="hideadvoptions" style="color: #FFFFFF"><u>Hide advanced search options</u></a');
+        });
+
+        $('#advoptionsdiv').on('click', '#hideadvoptions', function () {
+            $("#advanced_options_table").css('display', 'none');
+            $("#advoptionsdiv").html('<a href="javascript:;" id="showadvoptions" style="color: #FFFFFF"><u>Show advanced search options</u></a');
+        });
+
+        $('#statspaneldiv').on('click', '#showstatspanel', function () {
+            var div = $("#output");
+            $("#statspaneldiv").html('<a href="javascript:;" id="showstatspanel" style="color: #FFFFFF"><u>Loading statistics panel...</u></a');
+            div.html('Loading the statistics panel. <strong>Please wait, this will take some time.</strong>');
+
+            $.ajax({
+                    url: "/stats_panel",
+                    type: "get",
+                    data: {uid: verified_uid},
+                    dataType: "json",
+                    async: true,
+                    success: function (response) {
+                      $('#output').html(response.html);
+                      $("#statspaneldiv").html('<a href="javascript:;" id="showstatspanel" style="color: #FFFFFF"><u>Show the statistics panel</u></a');
+
+                    }
+                });
+
+        });
+    });
+
+    function check_login() {
+        document.getElementById('status_text').innerHTML = "Checking...";
+    }
+
+    function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+            forms[i].addEventListener('submit', function (event) {
+                event.preventDefault();
+            });
+        }
+    }
+
+    window.addEventListener('load', preventFormSubmit);
+
+    {#
+    The following dropdown search code is not mine and may be found here:
+    https://www.w3schools.com/howto/howto_js_filter_dropdown.asp
+    #}
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("familysearch");
+        filter = input.value.toUpperCase();
+        var div = document.getElementById("myDropdown");
+        div.style = "overflow-y: auto;";
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    function update_search(str_value) {
+        var family_input = document.getElementById("familysearch");
+        family_input.value = str_value;
+        filterFunction();
+    }
+
+</script>
+
+</html>
