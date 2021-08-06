@@ -78,6 +78,16 @@
 </body>
 
 <script>
+    $(document).ready(function(){
+        $.ajax({
+            type: "GET",
+            url: "/loadoptions",
+            success: function(data) {
+                $("#paramdiv").html(data)
+            }
+        });
+    });
+
     $('#submit_search').on('click', '#submit_search_button', function () {
         var div = $("#output");
         var typegi = $("#typegi");

@@ -3,9 +3,9 @@ font-family: "Lato";
   font-weight: 100
 }
 
-#paramdiv {
-  max-height: 40vh;
-}
+/*#paramdiv {*/
+/*  max-height: 40vh;*/
+/*}*/
 
 #myDropdown{
   max-height: 30vh;
